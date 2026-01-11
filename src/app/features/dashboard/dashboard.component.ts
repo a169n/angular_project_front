@@ -2,6 +2,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AcademyApiService } from '../../data-access/academy-api.service';
 import { CourseStore } from '../../state/course.store';
+import { CoursePlannerComponent } from './components/course-planner.component';
 import { Initiative, InitiativeCardComponent } from './components/initiative-card.component';
 import { MetricTileComponent } from './components/metric-tile.component';
 
@@ -14,7 +15,13 @@ interface ActivityItem {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, InitiativeCardComponent, MetricTileComponent],
+  imports: [
+    CommonModule,
+    AsyncPipe,
+    CoursePlannerComponent,
+    InitiativeCardComponent,
+    MetricTileComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="dashboard">
@@ -46,6 +53,8 @@ interface ActivityItem {
           </ul>
           <p>Total effort: {{ totalMinutes() }} minutes</p>
         </article>
+
+        <app-course-planner />
 
         <article class="panel">
           <h3>Latest Reports (RxJS + retry/fallback)</h3>
