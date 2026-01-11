@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
     <div class="metric-tile">
       <p class="label">{{ label }}</p>
       <h3>{{ value }}</h3>
-      <span class="trend" [class]="trend">{{ trend }}</span>
+      <span [class]="'trend ' + trend">{{ trend }}</span>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

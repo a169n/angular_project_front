@@ -1,30 +1,30 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-interface DrillItem {
-  scenario: string;
-  owner: string;
-  status: string;
-}
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { TodoStore } from '../../../data-access/todo-store.service';
 
 @Component({
   selector: 'app-incident-drills',
   template: `
     <article class="panel">
-      <h3>Incident Drill Schedule</h3>
+      <h3>Archive</h3>
+      <p class="muted">Completed tasks stay here for reference and reporting.</p>
       <table class="table">
         <thead>
           <tr>
-            <th>Scenario</th>
-            <th>Owner</th>
-            <th>Status</th>
+            <th>Task</th>
+            <th>Category</th>
+            <th>Completed</th>
           </tr>
         </thead>
         <tbody>
-          @for (drill of drills; track drill.scenario) {
+          @for (task of completed(); track task.id) {
             <tr>
-              <td>{{ drill.scenario }}</td>
-              <td>{{ drill.owner }}</td>
-              <td>{{ drill.status }}</td>
+              <td>{{ task.title }}</td>
+              <td>{{ task.category }}</td>
+              <td>{{ task.completedAt?.slice(0, 10) || 'Done' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="3" class="empty-state">No completed tasks yet.</td>
             </tr>
           }
         </tbody>
@@ -34,9 +34,11 @@ interface DrillItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IncidentDrillsComponent {
-  readonly drills: DrillItem[] = [
-    { scenario: 'XSS response simulation', owner: 'Security', status: 'Planned' },
-    { scenario: 'CI outage recovery', owner: 'DevOps', status: 'In progress' },
-    { scenario: 'API latency spike', owner: 'Platform', status: 'Completed' },
-  ];
+  private readonly store = inject(TodoStore);
+  readonly completed = computed(() =>
+    this.store
+      .todos()
+      .filter((todo) => todo.status === 'done')
+      .slice(0, 12),
+  );
 }

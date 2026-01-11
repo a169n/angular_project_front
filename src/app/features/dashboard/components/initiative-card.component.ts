@@ -1,29 +1,25 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
-export interface Initiative {
-  title: string;
-  owner: string;
-  status: 'on-track' | 'at-risk' | 'delayed';
-  progress: number;
-}
+import { TodoItem } from '../../../data-access/todo-store.service';
 
 @Component({
   selector: 'app-initiative-card',
   standalone: true,
   template: `
-    <div class="card">
+    <div class="focus-card">
       <header>
-        <h4>{{ initiative.title }}</h4>
-        <span class="status" [class]="initiative.status">{{ initiative.status }}</span>
+        <h4>{{ todo.title }}</h4>
+        <span [class]="'status-pill status-' + todo.status">{{ todo.status }}</span>
       </header>
-      <p>Owner: {{ initiative.owner }}</p>
-      <div class="progress">
-        <div class="progress-bar" [style.width.%]="initiative.progress"></div>
+      <p class="muted">{{ todo.notes }}</p>
+      <div class="focus-meta">
+        <span class="chip">{{ todo.category }}</span>
+        <span class="chip">{{ todo.priority }} priority</span>
+        <span class="chip">Due {{ todo.dueDate || 'TBD' }}</span>
       </div>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InitiativeCardComponent {
-  @Input({ required: true }) initiative!: Initiative;
+  @Input({ required: true }) todo!: TodoItem;
 }

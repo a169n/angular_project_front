@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NotificationService } from './shared/notification.service';
 import { FeatureFlagService } from './core/services/feature-flag.service';
 import { ThemeService } from './core/services/theme.service';
@@ -8,18 +8,19 @@ import { ThemeService } from './core/services/theme.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet],
+  imports: [CommonModule, RouterLink, RouterLinkActive, RouterOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="app-header">
-      <div>
-        <h1>Enterprise Angular Academy</h1>
-        <p>Advanced Frontend Architecture Demo</p>
+      <div class="brand">
+        <p class="brand-kicker">Enterprise Flow</p>
+        <h1>Atlas To-Do Studio</h1>
+        <p class="brand-tagline">Modular, signal-driven task orchestration.</p>
       </div>
-      <nav>
-        <a routerLink="/">Dashboard</a>
-        <a routerLink="/academy">Academy</a>
-        <a routerLink="/labs">Labs</a>
+      <nav class="main-nav">
+        <a routerLink="/" routerLinkActive="active">Overview</a>
+        <a routerLink="/academy" routerLinkActive="active">Projects</a>
+        <a routerLink="/labs" routerLinkActive="active">Focus</a>
       </nav>
       <button class="theme-toggle" type="button" (click)="toggleTheme()">
         {{ themeLabel() }}
@@ -45,6 +46,7 @@ import { ThemeService } from './core/services/theme.service';
     }
 
     <footer class="app-footer">
+      <span>Signal-powered, client-side task management.</span>
       <span>Performance mode: {{ performanceMode() }}</span>
     </footer>
   `,

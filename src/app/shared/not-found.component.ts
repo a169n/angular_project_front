@@ -9,8 +9,8 @@ import { RouterLink } from '@angular/router';
   template: `
     <section class="not-found">
       <h1>Page not found</h1>
-      <p>The resource you requested is not part of the academy workspace.</p>
-      <a routerLink="/">Return to dashboard</a>
+      <p>The workspace route you requested does not exist in this to-do studio.</p>
+      <a routerLink="/">Return to overview</a>
     </section>
   `,
 })
