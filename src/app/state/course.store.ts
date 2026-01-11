@@ -23,4 +23,8 @@ export class CourseStore {
   add(course: Course): void {
     this._courses.update((items) => [...items, course]);
   }
+
+  remove(id: string): void {
+    this._courses.update((items) => items.filter((course) => course.id !== id));
+  }
 }
