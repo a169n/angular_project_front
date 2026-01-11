@@ -20,11 +20,13 @@ interface DrillItem {
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let drill of drills">
-            <td>{{ drill.scenario }}</td>
-            <td>{{ drill.owner }}</td>
-            <td>{{ drill.status }}</td>
-          </tr>
+          @for (drill of drills; track drill.scenario) {
+            <tr>
+              <td>{{ drill.scenario }}</td>
+              <td>{{ drill.owner }}</td>
+              <td>{{ drill.status }}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </article>

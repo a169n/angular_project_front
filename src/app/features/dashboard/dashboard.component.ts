@@ -23,9 +23,7 @@ interface ActivityItem {
           <h2>Architecture & Performance Control Center</h2>
           <p>Signals-driven state, optimized change detection, and resilient RxJS pipelines.</p>
         </div>
-        <div class="status-chip">
-          Release train: <strong>Q3 Enterprise</strong>
-        </div>
+        <div class="status-chip">Release train: <strong>Q3 Enterprise</strong></div>
       </header>
 
       <section class="metrics-grid">
@@ -39,10 +37,12 @@ interface ActivityItem {
         <article class="panel">
           <h3>Learning Path (Signals)</h3>
           <ul class="list">
-            <li *ngFor="let course of courses()">
-              <strong>{{ course.title }}</strong>
-              <span>{{ course.durationMinutes }} min</span>
-            </li>
+            @for (course of courses(); track course.id) {
+              <li>
+                <strong>{{ course.title }}</strong>
+                <span>{{ course.durationMinutes }} min</span>
+              </li>
+            }
           </ul>
           <p>Total effort: {{ totalMinutes() }} minutes</p>
         </article>
@@ -50,33 +50,36 @@ interface ActivityItem {
         <article class="panel">
           <h3>Latest Reports (RxJS + retry/fallback)</h3>
           <ul class="list">
-            <li *ngFor="let report of reports$ | async">
-              <strong>{{ report.title }}</strong>
-              <span>{{ report.status }}</span>
-            </li>
+            @for (report of reports$ | async; track report.id) {
+              <li>
+                <strong>{{ report.title }}</strong>
+                <span>{{ report.status }}</span>
+              </li>
+            }
           </ul>
         </article>
 
         <article class="panel">
           <h3>Strategic Initiatives</h3>
           <div class="card-grid">
-            <app-initiative-card
-              *ngFor="let initiative of initiatives"
-              [initiative]="initiative"
-            />
+            @for (initiative of initiatives; track initiative.title) {
+              <app-initiative-card [initiative]="initiative" />
+            }
           </div>
         </article>
 
         <article class="panel">
           <h3>Delivery Activity</h3>
           <ol class="activity">
-            <li *ngFor="let item of activity">
-              <div>
-                <strong>{{ item.title }}</strong>
-                <p>{{ item.detail }}</p>
-              </div>
-              <span>{{ item.time }}</span>
-            </li>
+            @for (item of activity; track item.title) {
+              <li>
+                <div>
+                  <strong>{{ item.title }}</strong>
+                  <p>{{ item.detail }}</p>
+                </div>
+                <span>{{ item.time }}</span>
+              </li>
+            }
           </ol>
         </article>
       </div>
@@ -93,7 +96,12 @@ export class DashboardComponent {
 
   readonly initiatives: Initiative[] = [
     { title: 'Standalone Migration', owner: 'Platform Team', status: 'on-track', progress: 76 },
-    { title: 'Signal Store Adoption', owner: 'Architecture Guild', status: 'at-risk', progress: 52 },
+    {
+      title: 'Signal Store Adoption',
+      owner: 'Architecture Guild',
+      status: 'at-risk',
+      progress: 52,
+    },
     { title: 'CI Pipeline Hardening', owner: 'DevOps', status: 'delayed', progress: 34 },
   ];
 

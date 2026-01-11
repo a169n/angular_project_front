@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-metric-tile',
+  standalone: true,
   template: `
     <div class="metric-tile">
       <p class="label">{{ label }}</p>

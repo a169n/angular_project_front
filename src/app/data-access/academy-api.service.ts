@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { catchError, delay, map, of, retry, switchMap, throwError, timeout } from 'rxjs';
 import { API_BASE_URL } from '../core/tokens';
 
@@ -11,10 +11,8 @@ export interface AcademyReport {
 
 @Injectable({ providedIn: 'root' })
 export class AcademyApiService {
-  constructor(
-    private readonly http: HttpClient,
-    @Inject(API_BASE_URL) private readonly apiBaseUrl: string,
-  ) {}
+  private readonly http = inject(HttpClient);
+  private readonly apiBaseUrl = inject(API_BASE_URL);
 
   loadReports() {
     return of(true).pipe(

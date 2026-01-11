@@ -9,6 +9,7 @@ export interface Initiative {
 
 @Component({
   selector: 'app-initiative-card',
+  standalone: true,
   template: `
     <div class="card">
       <header>

@@ -12,10 +12,12 @@ interface LabItem {
     <article class="panel">
       <h3>Lab Catalog</h3>
       <ul class="list">
-        <li *ngFor="let lab of labs">
-          <strong>{{ lab.title }}</strong>
-          <span>{{ lab.focus }} · {{ lab.duration }}</span>
-        </li>
+        @for (lab of labs; track lab.title) {
+          <li>
+            <strong>{{ lab.title }}</strong>
+            <span>{{ lab.focus }} · {{ lab.duration }}</span>
+          </li>
+        }
       </ul>
     </article>
   `,

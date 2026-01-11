@@ -15,8 +15,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'labs',
-    loadChildren: () =>
-      import('../features/labs/labs.module').then((module) => module.LabsModule),
+    loadChildren: () => import('../features/labs/labs.module').then((module) => module.LabsModule),
   },
   {
     path: '**',

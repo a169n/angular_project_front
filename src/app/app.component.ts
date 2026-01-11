@@ -30,15 +30,19 @@ import { ThemeService } from './core/services/theme.service';
       <router-outlet />
     </main>
 
-    <aside class="notifications" *ngIf="hasNotifications()">
-      <h3>Notifications</h3>
-      <ul>
-        <li *ngFor="let note of notifications()">
-          <strong>{{ note.title }}</strong>
-          <span>{{ note.message }}</span>
-        </li>
-      </ul>
-    </aside>
+    @if (hasNotifications()) {
+      <aside class="notifications">
+        <h3>Notifications</h3>
+        <ul>
+          @for (note of notifications(); track $index) {
+            <li>
+              <strong>{{ note.title }}</strong>
+              <span>{{ note.message }}</span>
+            </li>
+          }
+        </ul>
+      </aside>
+    }
 
     <footer class="app-footer">
       <span>Performance mode: {{ performanceMode() }}</span>

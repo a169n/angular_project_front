@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 
 export type ThemeMode = 'light' | 'dark';
 
@@ -7,8 +7,9 @@ export type ThemeMode = 'light' | 'dark';
 export class ThemeService {
   private readonly storageKey = 'enterprise-theme';
   private readonly _theme = signal<ThemeMode>('light');
+  private readonly document = inject(DOCUMENT);
 
-  constructor(@Inject(DOCUMENT) private readonly document: Document) {
+  constructor() {
     const initial = this.resolveInitialTheme();
     this.applyTheme(initial);
   }
