@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HttpClientXsrfModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter, withPreloading } from '@angular/router';
 import { provideZoneChangeDetection } from '@angular/core';
 import { appRoutes } from './app.routes';
@@ -13,7 +13,13 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
     provideRouter(appRoutes, withPreloading(PreloadAllModules)),
-    importProvidersFrom(RouterModule),
+    importProvidersFrom(
+      RouterModule,
+      HttpClientXsrfModule.withOptions({
+        cookieName: 'XSRF-TOKEN',
+        headerName: 'X-XSRF-TOKEN',
+      }),
+    ),
     provideHttpClient(withInterceptors([errorInterceptor])),
     apiBaseUrlProvider,
     FeatureFlagService,

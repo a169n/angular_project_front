@@ -36,9 +36,9 @@ export class TodoStore {
   add(input: NewTodoInput): void {
     const todo: TodoItem = {
       id: this.createId(),
-      title: input.title.trim(),
-      notes: input.notes.trim(),
-      category: input.category,
+      title: this.sanitizeText(input.title),
+      notes: this.sanitizeText(input.notes),
+      category: this.sanitizeText(input.category),
       dueDate: input.dueDate,
       priority: input.priority,
       status: input.status ?? 'todo',
@@ -50,7 +50,22 @@ export class TodoStore {
   }
 
   update(id: string, patch: Partial<TodoItem>): void {
-    const next = this._todos().map((todo) => (todo.id === id ? { ...todo, ...patch } : todo));
+    const next = this._todos().map((todo) => {
+      if (todo.id !== id) {
+        return todo;
+      }
+      const sanitized: Partial<TodoItem> = { ...patch };
+      if (typeof sanitized.title === 'string') {
+        sanitized.title = this.sanitizeText(sanitized.title);
+      }
+      if (typeof sanitized.notes === 'string') {
+        sanitized.notes = this.sanitizeText(sanitized.notes);
+      }
+      if (typeof sanitized.category === 'string') {
+        sanitized.category = this.sanitizeText(sanitized.category);
+      }
+      return { ...todo, ...sanitized };
+    });
     this._todos.set(next);
     this.persist(next);
   }
@@ -146,5 +161,15 @@ export class TodoStore {
     const date = new Date();
     date.setDate(date.getDate() + offsetDays);
     return date.toISOString().slice(0, 10);
+  }
+
+  private sanitizeText(value: string): string {
+    return (
+      value
+        .replace(/<[^>]*>/g, '')
+        // eslint-disable-next-line no-control-regex
+        .replace(/[\x00-\x1f\x7f]/g, '')
+        .trim()
+    );
   }
 }
